@@ -5,11 +5,6 @@ function getComputerChoice() {
   return choice[index];
 }
 
-// restituisce la scelta del giocatore
-function getPlayerSelection() {
-  return prompt("Make a choice among Rock, Paper or Scissors");
-}
-
 // trasforma la scelta del giocatore in una stringa a caratteri tutti minuscoli
 function setLowerCase(playerSelection) {
   return playerSelection.toLowerCase();
@@ -20,8 +15,6 @@ function playRound(playerSelection, computerSelection) {
   //rende entrambi gli argomenti lowercase per il confronto
   playerSelection = setLowerCase(playerSelection);
   computerSelection = setLowerCase(computerSelection);
-
-  console.log(playerSelection);
 
   // qui è implemetata la logica di vittoria o sconfitta del round
   if (playerSelection === computerSelection) {
@@ -37,6 +30,26 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
+function displayRoundResult(value) {
+  //see playRound function
+  // value = 1 -> players wins
+  // value = 0 -> computer wins
+  // value = -1 -> tie
+  const roundResultPane = document.querySelector("div");
+  roundResultPane.textContent = "";
+
+  // a seconda dell'esito, restituisce un messaggio di vittoria, sconfitta, oppure pareggio
+  if (value == -1) {
+    roundResultPane.textContent = "It's a tie - Try again";
+  } else if (value == 1) {
+    ++userScore;
+    roundResultPane.textContent = "You Lose";
+  } else {
+    ++computerScore;
+    roundResultPane.textContent = "You Win";
+  }
+}
+
 function playGame() {
   //inizializzo le variabili
   let i = 1; // contatore dei round
@@ -45,7 +58,7 @@ function playGame() {
   let continueRounds = true; // variabile logica per l'interruzione della partita dopo 5 round
 
   // permette di giocare 5 round oppure quando uno dei giocatori ha raggiunto 3 punti
-  while (i <= 5 && continueRounds) {
+  while (continueRounds) {
     console.log(`Round ${i}`);
 
     // immagazzino l'esito del round, eseguito da playRound
@@ -76,4 +89,17 @@ function playGame() {
   console.log(`Game completed. Here's the final result:\n
       User score = ${userScore}\n
       Computer score = ${computerScore}`);
+}
+
+// UI
+const playButtons = document.querySelectorAll("button");
+
+for (let i = 0; i < playButtons.length; i++) {
+  let playerChoiceLower = setLowerCase(playButtons[i].textContent);
+
+  playButtons[i].addEventListener("click", () => {
+    const roundResult = playRound(playerChoiceLower, getComputerChoice());
+    console.log(roundResult);
+    displayRoundResult(roundResult);
+  });
 }
