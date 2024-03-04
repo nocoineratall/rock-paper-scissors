@@ -1,3 +1,5 @@
+const playerName = prompt("Insert your name");
+
 // UI
 const playButtons = document.querySelectorAll("button");
 
@@ -7,10 +9,13 @@ for (let i = 0; i < playButtons.length; i++) {
   playButtons[i].addEventListener("click", () => {
     if (playerScore < 5 && computerScore < 5) {
       playRound(playerChoiceLower, getComputerChoice());
-      if (playerScore == 5)
-        roundMessage.textContent = "Game Over - Player Wins";
-      if (computerScore == 5)
+      if (playerScore == 5) {
+        roundMessage.textContent = `Game Over - ${playerName} Wins`;
+        resetButton();
+      } else if (computerScore == 5) {
         roundMessage.textContent = "Game Over - Computer Wins";
+        resetButton();
+      }
     }
   });
 }
@@ -21,8 +26,8 @@ let computerScore = 0;
 const roundMessage = document.querySelector(".round-message");
 const playerScorePane = document.querySelector(".player-score");
 const computerScorePane = document.querySelector(".computer-score");
-roundMessage.textContent = "Make a choice and beat the Coputer - Good luck!";
-playerScorePane.textContent = `Player: ${playerScore}`;
+roundMessage.textContent = "Make a choice and beat the Computer\nGood luck!";
+playerScorePane.textContent = `${playerName}: ${playerScore}`;
 computerScorePane.textContent = `Computer: ${computerScore}`;
 
 function playRound(playerSelection, computerSelection) {
@@ -30,7 +35,7 @@ function playRound(playerSelection, computerSelection) {
     case "rock":
       if (computerSelection == "scissors") {
         ++playerScore;
-        playerScorePane.textContent = `Player: ${playerScore}`;
+        playerScorePane.textContent = `${playerName}: ${playerScore}`;
         roundMessage.textContent = "You Win - Rock beasts Scissors";
       } else if (computerSelection == "paper") {
         roundMessage.textContent = "You Lose - Paper beats rock";
@@ -50,7 +55,7 @@ function playRound(playerSelection, computerSelection) {
         roundMessage.textContent = "It's a Tie - Try again";
       } else if (computerSelection == "rock") {
         ++playerScore;
-        playerScorePane.textContent = `Player: ${playerScore}`;
+        playerScorePane.textContent = `${playerName}: ${playerScore}`;
         roundMessage.textContent = "You Win - Paper beats Rock";
       }
       break;
@@ -61,7 +66,7 @@ function playRound(playerSelection, computerSelection) {
       } else if (computerSelection == "paper") {
         roundMessage.textContent = "You Win - Scissors beats Paper";
         ++playerScore;
-        playerScorePane.textContent = `Player: ${playerScore}`;
+        playerScorePane.textContent = `${playerName}: ${playerScore}`;
       } else if (computerSelection == "rock") {
         computerScore++;
         computerScorePane.textContent = `Computer: ${computerScore}`;
@@ -81,4 +86,21 @@ function getComputerChoice() {
 // trasforma la scelta del giocatore in una stringa a caratteri tutti minuscoli
 function setLowerCase(playerSelection) {
   return playerSelection.toLowerCase();
+}
+
+function resetButton() {
+  const resetDiv = document.querySelector(".reset");
+  const resetBtn = document.createElement("button");
+  resetBtn.textContent = "Reset";
+  resetBtn.classList = "reset-btn";
+  resetBtn.addEventListener("click", () => {
+    computerScore = 0;
+    playerScore = 0;
+    computerScorePane.textContent = `Computer: ${computerScore}`;
+    playerScorePane.textContent = `${playerName}: ${playerScore}`;
+    roundMessage.textContent = "Start a new game by choosing your move!";
+    resetBtn.remove();
+  });
+
+  resetDiv.appendChild(resetBtn);
 }
