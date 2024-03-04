@@ -1,0 +1,69 @@
+* {
+  font-family: "Josefin Sans";
+  letter-spacing: 2px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+    background-color: rgb(21, 27, 112); 
+    color: white";
+}
+
+.header{
+    background-color: rgb(196, 196, 196);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.header a{
+    text-decoration: none;
+    padding: 5px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+button {
+  color: white;
+  background-color: rgb(62, 106, 253);
+  border: 2px solid rgb(255, 255, 255);
+  font-size: 20px;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 200px;
+  flex: 1;
+}
+
+.reset-btn {
+    color: rgb(255, 255, 255);
+    background-color: rgb(211, 90, 90);
+    border-radius: 10px;
+    max-width: 200px;
+}
+
+.game-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(221, 221, 221);
+  font-size: 40px;  
+  padding: 100px 60px;
+}
+
+.score-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100px 60px;
+  gap: 20px;
+}
+
+.reset {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
