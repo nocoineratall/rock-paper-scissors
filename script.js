@@ -26,7 +26,7 @@ let computerScore = 0;
 const roundMessage = document.querySelector(".round-message");
 const playerScorePane = document.querySelector(".player-score");
 const computerScorePane = document.querySelector(".computer-score");
-roundMessage.textContent = "Make a choice and beat the Computer\nGood luck!";
+roundMessage.textContent = "Try and beat the Computer - Good luck!";
 playerScorePane.textContent = `${playerName}: ${playerScore}`;
 computerScorePane.textContent = `Computer: ${computerScore}`;
 
