@@ -6,26 +6,56 @@
 }
 
 body {
-    background-color: rgb(21, 27, 112); 
-    color: white";
+  background-color: rgb(21, 27, 112);
+  color: white;
 }
 
-.header{
-    background-color: rgb(196, 196, 196);
-    display: flex;
-    justify-content: flex-end;
+.header {
+  background-color: rgb(196, 196, 196);
+  display: flex;
+  justify-content: flex-end;
 }
 
-.header a{
-    text-decoration: none;
-    padding: 5px;
+.header a {
+  text-decoration: none;
+  padding: 2px;
 }
 
-.player-area, .computer-area {
+.game-field {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  color: rgb(221, 221, 221);
+  font-size: 40px;
+  padding: 100px 60px;
+}
+
+.score-board {
+  display: flex;
+  justify-content: center;
+  padding: 100px 60px;
+  gap: 10vw;
+}
+
+.player-area,
+.computer-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.player-choice,
+.computer-choice {
+  padding-top: 5vh;
+  min-height: 5vh;
+}
+
+.round-message {
+  display: flex;
+  min-height: 10vh;
+  justify-content: center;
+  align-items: center;
 }
 
 .buttons-container {
@@ -46,30 +76,14 @@ button {
 }
 
 .reset-btn {
-    color: rgb(255, 255, 255);
-    background-color: rgb(211, 90, 90);
-    border-radius: 10px;
-    max-width: 200px;
-}
-
-.game-field {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: rgb(221, 221, 221);
-  font-size: 40px;  
-  padding: 100px 60px;
-}
-
-.score-board {
-  display: flex;
-  justify-content: center;
-  padding: 100px 60px;
-  gap: 10vw;
+  color: rgb(255, 255, 255);
+  background-color: rgb(211, 90, 90);
+  border-radius: 10px;
+  max-width: 200px;
 }
 
 .reset {
-    display: flex;
-    justify-content: center;
-    padding: 40px;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
 }
