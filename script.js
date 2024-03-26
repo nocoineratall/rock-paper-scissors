@@ -1,13 +1,26 @@
 const playerName = "Dummy user"; //prompt("Insert your name");
 
-// UI
+let playerScore = 0;
+let computerScore = 0;
 const playButtons = document.querySelectorAll("button");
+const roundMessage = document.querySelector(".round-message");
+const playerNameP = document.querySelector(".player-name");
+const playerScoreDiv = document.querySelector(".player-score");
+const computerScoreDiv = document.querySelector(".computer-score");
+const playerChoiceP = document.querySelector(".player-choice");
+const computerChoiceP = document.querySelector(".computer-choice");
+let welcomeMessage = "Try and beat the Computer - Good luck!";
+roundMessage.textContent = welcomeMessage;
+playerNameP.textContent = playerName;
+playerScoreDiv.textContent = playerScore;
+computerScoreDiv.textContent = computerScore;
 
 for (let i = 0; i < playButtons.length; i++) {
   let playerChoiceLower = setLowerCase(playButtons[i].textContent);
 
   playButtons[i].addEventListener("click", () => {
     if (playerScore < 5 && computerScore < 5) {
+      playerChoiceP.textContent = playerChoiceLower;
       playRound(playerChoiceLower, getComputerChoice());
       if (playerScore == 5) {
         roundMessage.textContent = `Game Over - ${playerName} Wins`;
@@ -21,18 +34,6 @@ for (let i = 0; i < playButtons.length; i++) {
 }
 
 // runs a round and prints the score
-let playerScore = 0;
-let computerScore = 0;
-const roundMessage = document.querySelector(".round-message");
-const playerNameP = document.querySelector(".player-name");
-const playerScoreDiv = document.querySelector(".player-score");
-const computerScoreDiv = document.querySelector(".computer-score");
-let welcomeMessage = "Try and beat the Computer - Good luck!";
-roundMessage.textContent = welcomeMessage;
-playerNameP.textContent = playerName;
-playerScoreDiv.textContent = playerScore;
-computerScoreDiv.textContent = computerScore;
-
 function playRound(playerSelection, computerSelection) {
   switch (playerSelection) {
     case "rock":
@@ -83,6 +84,7 @@ function playRound(playerSelection, computerSelection) {
 function getComputerChoice() {
   let choice = ["rock", "paper", "scissors"];
   let index = Math.floor(Math.random() * 10) % 3;
+  computerChoiceP.textContent = choice[index];
   return choice[index];
 }
 
@@ -101,6 +103,8 @@ function resetButton() {
     playerScore = 0;
     computerScoreDiv.textContent = computerScore;
     playerScoreDiv.textContent = playerScore;
+    playerChoiceP.textContent = "";
+    computerChoiceP.textContent = "";
     roundMessage.textContent = welcomeMessage;
     resetBtn.remove();
   });
