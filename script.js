@@ -1,4 +1,4 @@
-const playerName = prompt("Insert your name");
+const playerName = "Dummy user"; //prompt("Insert your name");
 
 // UI
 const playButtons = document.querySelectorAll("button");
@@ -24,52 +24,55 @@ for (let i = 0; i < playButtons.length; i++) {
 let playerScore = 0;
 let computerScore = 0;
 const roundMessage = document.querySelector(".round-message");
-const playerScorePane = document.querySelector(".player-score");
-const computerScorePane = document.querySelector(".computer-score");
-roundMessage.textContent = "Try and beat the Computer - Good luck!";
-playerScorePane.textContent = `${playerName}: ${playerScore}`;
-computerScorePane.textContent = `Computer: ${computerScore}`;
+const playerNameP = document.querySelector(".player-name");
+const playerScoreDiv = document.querySelector(".player-score");
+const computerScoreDiv = document.querySelector(".computer-score");
+let welcomeMessage = "Try and beat the Computer - Good luck!";
+roundMessage.textContent = welcomeMessage;
+playerNameP.textContent = playerName;
+playerScoreDiv.textContent = playerScore;
+computerScoreDiv.textContent = computerScore;
 
 function playRound(playerSelection, computerSelection) {
   switch (playerSelection) {
     case "rock":
       if (computerSelection == "scissors") {
         ++playerScore;
-        playerScorePane.textContent = `${playerName}: ${playerScore}`;
+        playerScoreDiv.textContent = playerScore;
         roundMessage.textContent = "You Win - Rock beasts Scissors";
       } else if (computerSelection == "paper") {
         roundMessage.textContent = "You Lose - Paper beats rock";
         computerScore++;
-        computerScorePane.textContent = `Computer: ${computerScore}`;
+        computerScoreDiv.textContent = computerScore;
       } else if (computerSelection == "rock") {
-        roundMessage.textContent = "It's a tie - Try again";
+        roundMessage.textContent = "It's a Tie";
       }
       break;
 
     case "paper":
       if (computerSelection == "scissors") {
         computerScore++;
-        computerScorePane.textContent = `Computer: ${computerScore}`;
+        computerScoreDiv.textContent = computerScore;
         roundMessage.textContent = "You Lose - Scissors beats Paper";
       } else if (computerSelection == "paper") {
-        roundMessage.textContent = "It's a Tie - Try again";
+        roundMessage.textContent = "It's a Tie";
       } else if (computerSelection == "rock") {
         ++playerScore;
-        playerScorePane.textContent = `${playerName}: ${playerScore}`;
+        playerScoreDiv.textContent = playerScore;
         roundMessage.textContent = "You Win - Paper beats Rock";
       }
       break;
 
     case "scissors":
       if (computerSelection == "scissors") {
-        roundMessage.textContent = "It's a Tie - Try again";
+        roundMessage.textContent = "It's a Tie";
       } else if (computerSelection == "paper") {
         roundMessage.textContent = "You Win - Scissors beats Paper";
         ++playerScore;
-        playerScorePane.textContent = `${playerName}: ${playerScore}`;
+        playerScoreDiv.textContent = playerScore;
       } else if (computerSelection == "rock") {
         computerScore++;
-        computerScorePane.textContent = `Computer: ${computerScore}`;
+        computerScoreDiv.textContent = computerScore;
         roundMessage.textContent = "You Lose - Rock beats Scissors";
       }
       break;
@@ -96,9 +99,9 @@ function resetButton() {
   resetBtn.addEventListener("click", () => {
     computerScore = 0;
     playerScore = 0;
-    computerScorePane.textContent = `Computer: ${computerScore}`;
-    playerScorePane.textContent = `${playerName}: ${playerScore}`;
-    roundMessage.textContent = "Start a new game by choosing your move!";
+    computerScoreDiv.textContent = computerScore;
+    playerScoreDiv.textContent = playerScore;
+    roundMessage.textContent = welcomeMessage;
     resetBtn.remove();
   });
 
