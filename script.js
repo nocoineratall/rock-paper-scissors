@@ -9,7 +9,11 @@ const playerScoreDiv = document.querySelector(".player-score");
 const computerScoreDiv = document.querySelector(".computer-score");
 const playerChoiceP = document.querySelector(".player-choice");
 const computerChoiceP = document.querySelector(".computer-choice");
+const playerMoveHistory = document.querySelector(".player-move-history");
+const computerMoveHistory = document.querySelector(".computer-move-history");
+const roundCounterP = document.querySelector(".round-counter");
 let welcomeMessage = "Try and beat the Computer - Good luck!";
+let roundCounter = 0;
 roundMessage.textContent = welcomeMessage;
 playerNameP.textContent = playerName;
 playerScoreDiv.textContent = playerScore;
@@ -22,6 +26,7 @@ for (let i = 0; i < playButtons.length; i++) {
     if (playerScore < 5 && computerScore < 5) {
       playerChoiceP.textContent = playerChoiceLower;
       playRound(playerChoiceLower, getComputerChoice());
+      printHistory(playerChoiceLower, "player");
       if (playerScore == 5) {
         roundMessage.textContent = `Game Over - ${playerName} Wins`;
         resetButton();
@@ -35,6 +40,7 @@ for (let i = 0; i < playButtons.length; i++) {
 
 // runs a round and prints the score
 function playRound(playerSelection, computerSelection) {
+  roundCounter++;
   switch (playerSelection) {
     case "rock":
       if (computerSelection == "scissors") {
@@ -85,6 +91,7 @@ function getComputerChoice() {
   let choice = ["rock", "paper", "scissors"];
   let index = Math.floor(Math.random() * 10) % 3;
   computerChoiceP.textContent = choice[index];
+  printHistory(choice[index], "computer");
   return choice[index];
 }
 
@@ -106,8 +113,26 @@ function resetButton() {
     playerChoiceP.textContent = "";
     computerChoiceP.textContent = "";
     roundMessage.textContent = welcomeMessage;
+    playerMoveHistory.textContent = "";
+    computerMoveHistory.textContent = "";
+    roundCounterP.textContent = "";
+    roundCounter = 0;
     resetBtn.remove();
   });
 
   resetDiv.appendChild(resetBtn);
+}
+
+function printHistory(move, selector) {
+  const moveP = document.createElement("p");
+  const counterP = document.createElement("p");
+  moveP.textContent = move;
+  counterP.textContent = roundCounter;
+
+  if (selector == "player") {
+    playerMoveHistory.appendChild(moveP);
+    roundCounterP.appendChild(counterP);
+  } else {
+    computerMoveHistory.appendChild(moveP);
+  }
 }
