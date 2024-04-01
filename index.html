@@ -17,32 +17,40 @@
     <div class="header">
       <a href="https://github.com/nocoineratall/rock-paper-scissors">GitHub</a>
     </div>
-    <div class="game-field">
-      <div class="score-board">
-        <div class="player-area">
-          <p class="player-name"></p>
-          <div class="player-score"></div>
-          <p class="player-choice"></p>
+    <div class="main-game-area">
+      <div class="game-field">
+        <div class="score-board">
+          <div class="player-area">
+            <p class="player-name"></p>
+            <div class="player-score"></div>
+            <p class="player-choice"></p>
+          </div>
+          <div class="computer-area">
+            <p class="computer-name">Computer</p>
+            <div class="computer-score"></div>
+            <p class="computer-choice"></p>
+          </div>
         </div>
-        <div class="computer-area">
-          <p class="computer-name">Computer</p>
-          <div class="computer-score"></div>
-          <p class="computer-choice"></p>
+        <div class="round-message"></div>
+        <div class="buttons-container">
+          <button id="rock" class="button">Rock</button>
+          <button id="paper" class="button">Paper</button>
+          <button id="scissors" class="button">Scissors</button>
         </div>
+        <div class="reset"></div>
       </div>
       <div class="game-history">
-        <p class="round-counter"></p>
-        <p class="player-move-history"></p>
-        <p class="computer-move-history"></p>
+        <div class="round-history">
+          <div class="round-counter"></div>
+          <div class="player-move history"></div>
+          <div class="computer-move history"></div>
+        </div>
+        <div class="game-score">
+          <p class="player-game-score"></p>
+          <p class="computer-game-score"></p>
+        </div>
       </div>
     </div>
-    <div class="round-message"></div>
-
-    <div class="buttons-container">
-      <button id="rock">Rock</button>
-      <button id="paper">Paper</button>
-      <button id="scissors">Scissors</button>
-    </div>
-    <div class="reset"></div>
+    <button class="rules">?</button>
   </body>
 </html>
