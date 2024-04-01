@@ -5,9 +5,14 @@
   padding: 0;
 }
 
+:root {
+  --buttons-clr: rgb(62, 106, 253);
+}
+
 body {
   background-color: rgb(21, 27, 112);
   color: white;
+  font-size: 20px;
 }
 
 .header {
@@ -23,11 +28,12 @@ body {
 
 .game-field {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-around;
   color: rgb(221, 221, 221);
   font-size: 40px;
   padding: 100px 60px;
+  border: 1px solid yellowgreen;
 }
 
 .score-board {
@@ -51,6 +57,24 @@ body {
   min-height: 5vh;
 }
 
+.game-history {
+  width: 20vw;
+  height: 20vh;
+  background-color: rgb(198, 241, 255);
+  border: 6px solid var(--buttons-clr);
+  border-radius: 12px;
+  color: black;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: flex-end;
+  overflow: auto;
+}
+
+.game-history > p {
+  flex: 1;
+  text-align: center;
+}
+
 .round-message {
   display: flex;
   min-height: 10vh;
@@ -66,7 +90,7 @@ body {
 
 button {
   color: white;
-  background-color: rgb(62, 106, 253);
+  background-color: var(--buttons-clr);
   border: 2px solid rgb(255, 255, 255);
   font-size: 20px;
   border-radius: 10px;
