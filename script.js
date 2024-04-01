@@ -2,22 +2,32 @@ const playerName = "Dummy user"; //prompt("Insert your name");
 
 let playerScore = 0;
 let computerScore = 0;
-const playButtons = document.querySelectorAll("button");
+let playerGameScore = 0;
+let computerGameScore = 0;
+let roundCounter = 0;
+let isOpen = false;
+let welcomeMessage = "Try and beat the Computer - Good luck!";
+const body = document.querySelector("body");
+const playButtons = document.querySelectorAll(".button");
 const roundMessage = document.querySelector(".round-message");
 const playerNameP = document.querySelector(".player-name");
 const playerScoreDiv = document.querySelector(".player-score");
 const computerScoreDiv = document.querySelector(".computer-score");
 const playerChoiceP = document.querySelector(".player-choice");
 const computerChoiceP = document.querySelector(".computer-choice");
-const playerMoveHistory = document.querySelector(".player-move-history");
-const computerMoveHistory = document.querySelector(".computer-move-history");
-const roundCounterP = document.querySelector(".round-counter");
-let welcomeMessage = "Try and beat the Computer - Good luck!";
-let roundCounter = 0;
+const playerMoveHistory = document.querySelector(".player-move");
+const computerMoveHistory = document.querySelector(".computer-move");
+const roundCounterDiv = document.querySelector(".round-counter");
+const playerGameScoreP = document.querySelector(".player-game-score");
+const computerGameScoreP = document.querySelector(".computer-game-score");
+const rulesBtn = document.querySelector(".rules");
+
 roundMessage.textContent = welcomeMessage;
 playerNameP.textContent = playerName;
 playerScoreDiv.textContent = playerScore;
 computerScoreDiv.textContent = computerScore;
+playerGameScoreP.textContent = `${playerName}: ${playerGameScore}`;
+computerGameScoreP.textContent = `Computer: ${computerGameScore}`;
 
 for (let i = 0; i < playButtons.length; i++) {
   let playerChoiceLower = setLowerCase(playButtons[i].textContent);
@@ -29,9 +39,11 @@ for (let i = 0; i < playButtons.length; i++) {
       printHistory(playerChoiceLower, "player");
       if (playerScore == 5) {
         roundMessage.textContent = `Game Over - ${playerName} Wins`;
+        playerGameScoreP.textContent = `${playerName}: ${++playerGameScore}`;
         resetButton();
       } else if (computerScore == 5) {
         roundMessage.textContent = "Game Over - Computer Wins";
+        computerGameScoreP.textContent = `Computer: ${++computerGameScore}`;
         resetButton();
       }
     }
@@ -86,6 +98,26 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
+rulesBtn.addEventListener("click", () => {
+  if (!isOpen) {
+    isOpen = true;
+    const rulesDiv = document.createElement("p");
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "close-btn";
+    closeBtn.textContent = "X";
+    closeBtn.addEventListener("click", () => {
+      body.removeChild(rulesDiv);
+      isOpen = false;
+    });
+    rulesDiv.textContent =
+      "This is a simple Rock, Paper, Scissors game \nThe aim of the game is to beat the computer\nEvery game is made of 5 rounds \nFirst to score 5 points wins the game \nPlay as many games as you want \nPress reset at the end of each game to start over\nComputer and player histories are displayed\nGame scores are also displayed\n\nDo your best and beat the opponent!";
+    console.log(rulesDiv.textContent);
+    rulesDiv.appendChild(closeBtn);
+    rulesDiv.className = "rules-popup";
+    body.appendChild(rulesDiv);
+  }
+});
+
 // restituisce la scelta del computer
 function getComputerChoice() {
   let choice = ["rock", "paper", "scissors"];
@@ -115,7 +147,7 @@ function resetButton() {
     roundMessage.textContent = welcomeMessage;
     playerMoveHistory.textContent = "";
     computerMoveHistory.textContent = "";
-    roundCounterP.textContent = "";
+    roundCounterDiv.textContent = "";
     roundCounter = 0;
     resetBtn.remove();
   });
@@ -131,7 +163,7 @@ function printHistory(move, selector) {
 
   if (selector == "player") {
     playerMoveHistory.appendChild(moveP);
-    roundCounterP.appendChild(counterP);
+    roundCounterDiv.appendChild(counterP);
   } else {
     computerMoveHistory.appendChild(moveP);
   }
