@@ -1,5 +1,6 @@
 const playerName = "Player"; //prompt("Insert your name");
 
+// global variables definition and initialization
 let playerScore = 0;
 let computerScore = 0;
 let playerGameScore = 0;
@@ -7,6 +8,8 @@ let computerGameScore = 0;
 let roundCounter = 0;
 let isOpen = false;
 let welcomeMessage = "Try and beat the Computer - Good luck!";
+
+// DOM elements query
 const body = document.querySelector("body");
 const playButtons = document.querySelectorAll(".button");
 const roundMessage = document.querySelector(".round-message");
@@ -22,6 +25,7 @@ const playerGameScoreP = document.querySelector(".player-game-score");
 const computerGameScoreP = document.querySelector(".computer-game-score");
 const rulesBtn = document.querySelector(".rules");
 
+// DOM elements initialization
 roundMessage.textContent = welcomeMessage;
 playerNameP.textContent = playerName;
 playerScoreDiv.textContent = playerScore;
@@ -29,10 +33,14 @@ computerScoreDiv.textContent = computerScore;
 playerGameScoreP.textContent = `${playerName}: ${playerGameScore}`;
 computerGameScoreP.textContent = `Computer: ${computerGameScore}`;
 
+// It binds event to all play buttons
 for (let i = 0; i < playButtons.length; i++) {
   let playerChoiceLower = setLowerCase(playButtons[i].textContent);
 
   playButtons[i].addEventListener("click", () => {
+    // callback function:
+    // prints player choice on history panel
+    // play a round, check for victory and prints winner name
     if (playerScore < 5 && computerScore < 5) {
       playerChoiceP.textContent = playerChoiceLower;
       playRound(playerChoiceLower, getComputerChoice());
@@ -98,6 +106,8 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
+// creates and prints game info
+// binds it to "help" button
 rulesBtn.addEventListener("click", () => {
   if (!isOpen) {
     isOpen = true;
@@ -118,7 +128,7 @@ rulesBtn.addEventListener("click", () => {
   }
 });
 
-// restituisce la scelta del computer
+// returns a random computer choice
 function getComputerChoice() {
   let choice = ["rock", "paper", "scissors"];
   let index = Math.floor(Math.random() * 10) % 3;
@@ -127,11 +137,12 @@ function getComputerChoice() {
   return choice[index];
 }
 
-// trasforma la scelta del giocatore in una stringa a caratteri tutti minuscoli
+// turns string to lowercase
 function setLowerCase(playerSelection) {
   return playerSelection.toLowerCase();
 }
 
+// resets game variables to default value/state
 function resetButton() {
   const resetDiv = document.querySelector(".reset");
   const resetBtn = document.createElement("button");
@@ -155,6 +166,7 @@ function resetButton() {
   resetDiv.appendChild(resetBtn);
 }
 
+// prints round on history panel
 function printHistory(move, selector) {
   const moveP = document.createElement("p");
   const counterP = document.createElement("p");
