@@ -7,15 +7,19 @@
 }
 
 :root {
-  --buttons-clr: rgb(62, 53, 185);
-  --bg-clr: rgb(0, 4, 61);
   --popup-height: 60vh;
   --popup-width: 70vw;
-  --reset-btn-clr: rgb(211, 90, 90);
+  /* using tailwind Stone pallette */
+  --buttons-clr: #44403c; /* 700 */
+  --reset-btn-clr: #78716c; /* 500 */
+  --background-color: #0c0a09; /* 950 */
+  --reset-hover-color: #1c1917; /* 900 */
+  --history-panel-border-color: #a8a29e; /* 400 */
+  --history-panel-bg-color: #fafaf9;
 }
 
 body {
-  background: linear-gradient(rgb(68, 30, 207), rgb(177, 175, 125));
+  background: var(--background-color);
   color: white;
   font-size: 20px;
   height: 100vh;
@@ -87,8 +91,8 @@ body {
   flex: 1;
   max-width: 20vw;
   height: 30vh;
-  background-color: rgb(198, 241, 255);
-  border: 6px solid var(--buttons-clr);
+  background-color: var(--history-panel-bg-color);
+  border: 6px solid var(--history-panel-border-color);
   border-radius: 12px;
   color: black;
   font-size: 1.3rem;
@@ -133,7 +137,7 @@ body {
 }
 
 .buttons-container > button:hover {
-  background-color: rgb(184, 155, 60);
+  background-color: rgb(110, 92, 25);
   transition: 0.3s;
 }
 
@@ -143,7 +147,7 @@ body {
 }
 
 .reset-btn:hover {
-  background-color: rgb(156, 68, 68);
+  background-color: var(--reset-hover-color);
   transition: 0.3s;
 }
 
