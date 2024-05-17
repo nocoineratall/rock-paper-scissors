@@ -1,4 +1,4 @@
-const playerName = "Dummy user"; //prompt("Insert your name");
+const playerName = "Player"; //prompt("Insert your name");
 
 let playerScore = 0;
 let computerScore = 0;
@@ -135,7 +135,7 @@ function setLowerCase(playerSelection) {
 function resetButton() {
   const resetDiv = document.querySelector(".reset");
   const resetBtn = document.createElement("button");
-  resetBtn.textContent = "Reset";
+  resetBtn.textContent = "Play Again";
   resetBtn.classList = "reset-btn";
   resetBtn.addEventListener("click", () => {
     computerScore = 0;
