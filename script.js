@@ -1,29 +1,123 @@
-const playerName = "Player"; //prompt("Insert your name");
-
 // global variables definition and initialization
-let playerScore = 0;
-let computerScore = 0;
-let playerGameScore = 0;
-let computerGameScore = 0;
 let roundCounter = 0;
 let isOpen = false;
 let welcomeMessage = "Try and beat the Computer - Good luck!";
 
-// DOM elements query
-const body = document.querySelector("body");
-const playButtons = document.querySelectorAll(".button");
-const roundMessage = document.querySelector(".round-message");
-const playerNameP = document.querySelector(".player-name");
-const playerScoreDiv = document.querySelector(".player-score");
-const computerScoreDiv = document.querySelector(".computer-score");
-const playerChoiceP = document.querySelector(".player-choice");
-const computerChoiceP = document.querySelector(".computer-choice");
-const playerMoveHistory = document.querySelector(".player-move");
-const computerMoveHistory = document.querySelector(".computer-move");
-const roundCounterDiv = document.querySelector(".round-counter");
-const playerGameScoreP = document.querySelector(".player-game-score");
-const computerGameScoreP = document.querySelector(".computer-game-score");
-const rulesBtn = document.querySelector(".rules");
+const DOM = (function () {
+  const DOMelements = {
+    body: document.querySelector("body"),
+    playButtons: document.querySelectorAll(".button"),
+    roundMessage: document.querySelector(".round-message"),
+    playerNameP: document.querySelector(".player-name"),
+    playerScoreDiv: document.querySelector(".player-score"),
+    computerScoreDiv: document.querySelector(".computer-score"),
+    playerChoiceP: document.querySelector(".player-choice"),
+    computerChoiceP: document.querySelector(".computer-choice"),
+    playerMoveHistory: document.querySelector(".player-move"),
+    computerMoveHistory: document.querySelector(".computer-move"),
+    roundCounterDiv: document.querySelector(".round-counter"),
+    playerGameScoreP: document.querySelector(".player-game-score"),
+    computerGameScoreP: document.querySelector(".computer-game-score"),
+    rulesBtn: document.querySelector(".rules"),
+    resetDiv: document.querySelector(".reset"),
+    resetBtn: document.createElement("button"),
+  };
+
+  return { DOMelements };
+})();
+
+const players = (function () {
+  const player = {
+    name: "Player",
+    roundScore: 0,
+    gameScore: 0,
+  };
+
+  const computer = {
+    name: "Computer",
+    roundScore: 0,
+    gameScore: 0,
+  };
+
+  const setPlayerName = function (newName) {
+    return (player.name = newName);
+  };
+
+  const setRoundScore = function (winner) {
+    return ++winner.roundScore;
+  };
+
+  return { setPlayerName, setRoundScore, player, computer };
+})();
+
+const gameLogic = (function () {
+  const moves = ["rock", "paper", "scissors"];
+
+  const playerMove = function (moveIndex) {
+    return moves[moveIndex];
+  };
+
+  const computerMove = function () {
+    let index = Math.floor(Math.random() * 100) % 3;
+    return moves[index];
+  };
+
+  const returnRoundWinner = function (moveIndex) {
+    const playerM = playerMove(moveIndex);
+    const computerM = computerMove();
+
+    switch (playerM) {
+      case "rock":
+        if (computerM == "rock") {
+          return false;
+        } else if (computerM == "paper") {
+          return players.computer;
+        } else if (computerM == "scissors") {
+          return players.player;
+        }
+        break;
+
+      case "paper":
+        if (computerM == "rock") {
+          return players.player;
+        } else if (computerM == "paper") {
+          return false;
+        } else if (computerM == "scissors") {
+          return players.computer;
+        }
+        break;
+
+      case "scissors":
+        if (computerM == "rock") {
+          return players.computer;
+        } else if (computerM == "paper") {
+          return players.player;
+        } else if (computerM == "scissors") {
+          return false;
+        }
+        break;
+    }
+  };
+
+  const playRound = function (moveIndex) {
+    let winner = returnRoundWinner(moveIndex);
+
+    if (winner == false) {
+      console.log("its a tie");
+      //prints tie message
+    } else {
+      players.setRoundScore(winner);
+      return winner.score;
+    }
+  };
+
+  const resetVars = function () {
+    players.computer.roundScore = 0;
+    players.player.roundScore = 0;
+  };
+
+  return { playRound, returnRoundWinner, playerMove, computerMove };
+})();
 
 // DOM elements initialization
 roundMessage.textContent = welcomeMessage;
@@ -58,54 +152,6 @@ for (let i = 0; i < playButtons.length; i++) {
   });
 }
 
-// runs a round and prints the score
-function playRound(playerSelection, computerSelection) {
-  roundCounter++;
-  switch (playerSelection) {
-    case "rock":
-      if (computerSelection == "scissors") {
-        ++playerScore;
-        playerScoreDiv.textContent = playerScore;
-        roundMessage.textContent = "You Win - Rock beasts Scissors";
-      } else if (computerSelection == "paper") {
-        roundMessage.textContent = "You Lose - Paper beats rock";
-        computerScore++;
-        computerScoreDiv.textContent = computerScore;
-      } else if (computerSelection == "rock") {
-        roundMessage.textContent = "It's a Tie";
-      }
-      break;
-
-    case "paper":
-      if (computerSelection == "scissors") {
-        computerScore++;
-        computerScoreDiv.textContent = computerScore;
-        roundMessage.textContent = "You Lose - Scissors beats Paper";
-      } else if (computerSelection == "paper") {
-        roundMessage.textContent = "It's a Tie";
-      } else if (computerSelection == "rock") {
-        ++playerScore;
-        playerScoreDiv.textContent = playerScore;
-        roundMessage.textContent = "You Win - Paper beats Rock";
-      }
-      break;
-
-    case "scissors":
-      if (computerSelection == "scissors") {
-        roundMessage.textContent = "It's a Tie";
-      } else if (computerSelection == "paper") {
-        roundMessage.textContent = "You Win - Scissors beats Paper";
-        ++playerScore;
-        playerScoreDiv.textContent = playerScore;
-      } else if (computerSelection == "rock") {
-        computerScore++;
-        computerScoreDiv.textContent = computerScore;
-        roundMessage.textContent = "You Lose - Rock beats Scissors";
-      }
-      break;
-  }
-}
-
 // creates and prints game info
 // binds it to "help" button
 rulesBtn.addEventListener("click", () => {
@@ -116,7 +162,7 @@ rulesBtn.addEventListener("click", () => {
     closeBtn.className = "close-btn";
     closeBtn.textContent = "X";
     closeBtn.addEventListener("click", () => {
-      body.removeChild(rulesDiv);
+      DOM.DOMelements.body.removeChild(rulesDiv);
       isOpen = false;
     });
     rulesDiv.textContent =
@@ -124,47 +170,32 @@ rulesBtn.addEventListener("click", () => {
     console.log(rulesDiv.textContent);
     rulesDiv.appendChild(closeBtn);
     rulesDiv.className = "rules-popup";
-    body.appendChild(rulesDiv);
+    DOM.DOMelements.body.appendChild(rulesDiv);
   }
 });
 
-// returns a random computer choice
-function getComputerChoice() {
-  let choice = ["rock", "paper", "scissors"];
-  let index = Math.floor(Math.random() * 10) % 3;
-  computerChoiceP.textContent = choice[index];
-  printHistory(choice[index], "computer");
-  return choice[index];
-}
-
-// turns string to lowercase
-function setLowerCase(playerSelection) {
-  return playerSelection.toLowerCase();
-}
-
 // resets game variables to default value/state
-function resetButton() {
-  const resetDiv = document.querySelector(".reset");
-  const resetBtn = document.createElement("button");
-  resetBtn.textContent = "Play Again";
-  resetBtn.classList = "reset-btn";
-  resetBtn.addEventListener("click", () => {
-    computerScore = 0;
-    playerScore = 0;
-    computerScoreDiv.textContent = computerScore;
-    playerScoreDiv.textContent = playerScore;
-    playerChoiceP.textContent = "";
-    computerChoiceP.textContent = "";
-    roundMessage.textContent = welcomeMessage;
-    playerMoveHistory.textContent = "";
-    computerMoveHistory.textContent = "";
-    roundCounterDiv.textContent = "";
-    roundCounter = 0;
-    resetBtn.remove();
-  });
-
-  resetDiv.appendChild(resetBtn);
-}
+// function resetVars() {
+//   const resetDiv = document.querySelector(".reset");
+//   const resetBtn = document.createElement("button");
+//   resetBtn.textContent = "Play Again";
+//   resetBtn.classList = "reset-btn";
+//   resetBtn.addEventListener("click", () => {
+//     computerScore = 0;
+//     playerScore = 0;
+//     computerScoreDiv.textContent = computerScore;
+//     playerScoreDiv.textContent = playerScore;
+//     playerChoiceP.textContent = "";
+//     computerChoiceP.textContent = "";
+//     roundMessage.textContent = welcomeMessage;
+//     playerMoveHistory.textContent = "";
+//     computerMoveHistory.textContent = "";
+//     roundCounterDiv.textContent = "";
+//     roundCounter = 0;
+//     resetBtn.remove();
+//   });
+//   resetDiv.appendChild(resetBtn);
+// }
 
 // prints round on history panel
 function printHistory(move, selector) {
