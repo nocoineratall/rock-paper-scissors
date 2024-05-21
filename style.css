@@ -1,213 +1,83 @@
 * {
   font-family: "Josefin Sans";
-  letter-spacing: 1px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 :root {
-  --popup-height: 60vh;
-  --popup-width: 70vw;
   /* using tailwind Stone pallette */
-  --buttons-clr: #44403c; /* 700 */
+  --buttons-clr: ; /* 700 */
   --reset-btn-clr: #78716c; /* 500 */
-  --background-color: #0c0a09; /* 950 */
+  --body-bg-color: #0c0a09; /* 950 */
+  --header-bg-color: #55524f;
   --reset-hover-color: #1c1917; /* 900 */
   --history-panel-border-color: #a8a29e; /* 400 */
-  --history-panel-bg-color: #fafaf9;
+  --history-panel-bg-color: #fafaf9; /* 50 */
+  --font-color-white: white;
+  --players-padding: 10px;
 }
 
 body {
-  background: var(--background-color);
-  color: white;
+  background: var(--body-bg-color);
+  color: var(--font-color-white);
   font-size: 20px;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .header {
-  background-color: rgb(196, 196, 196);
+  background-color: var(--header-bg-color);
+  padding: 10px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
 }
 
 .header a {
   text-decoration: none;
-  padding: 2px;
+  color: var(--font-color-white);
 }
 
-.main-game-area {
-  display: flex;
-  height: 100vh;
-  align-items: center;
+.header p {
+  font-size: 1rem;
+  display: inline;
+}
+
+.player-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.player-info > * {
+  font-size: 3rem;
+  text-align: center;
+  padding: var(--players-padding);
+}
+
+.players {
+  margin-top: 20px;
 }
 
 .game-field {
-  flex: 3;
+  display: flex;
+}
+
+.sides {
+  flex: 1;
+}
+
+.player-moves-list {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  color: rgb(221, 221, 221);
-  font-size: 2.5rem;
-  width: 100vw;
-  height: 55vh;
+  gap: 1rem;
 }
 
-.score-board {
-  display: flex;
-  justify-content: center;
-  gap: 10vw;
-  flex: 3;
+.player-moves-list > button {
+  width: 8rem;
+  padding: 10px;
 }
 
-.player-area,
-.computer-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3vh;
-}
-
-.player-choice,
-.computer-choice {
-  padding-top: 5vh;
-  min-height: 15vh;
-}
-
-.game-history {
-  flex: 1;
-}
-
-.game-score {
-  display: flex;
-  flex-direction: column;
-  padding: 2vh 0;
-  font-size: 1.5rem;
-  gap: 20px;
-}
-
-.round-history {
-  flex: 1;
-  max-width: 20vw;
-  height: 30vh;
-  background-color: var(--history-panel-bg-color);
-  border: 6px solid var(--history-panel-border-color);
-  border-radius: 12px;
-  color: black;
-  font-size: 1.3rem;
-  display: flex;
-  align-items: flex-end;
-  overflow-y: auto;
-}
-
-.round-history > .history {
-  flex: 2;
-  text-align: center;
-}
-
-.round-history > .round-counter {
-  flex: 1;
-  text-align: center;
-}
-
-.round-message {
-  display: flex;
-  min-height: 20vh;
-  justify-content: center;
-  align-items: center;
-}
-
-.buttons-container {
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-}
-
-.buttons-container > button,
-.reset-btn {
-  color: white;
-  background-color: var(--buttons-clr);
-  border: 2px solid rgb(255, 255, 255);
-  font-size: 20px;
-  border-radius: 10px;
-  padding: 20px;
-  min-width: 200px;
-  flex: 1;
-}
-
-.buttons-container > button:hover {
-  background-color: rgb(110, 92, 25);
-  transition: 0.3s;
-}
-
-.reset-btn {
-  color: rgb(255, 255, 255);
-  background-color: var(--reset-btn-clr);
-}
-
-.reset-btn:hover {
-  background-color: var(--reset-hover-color);
-  transition: 0.3s;
-}
-
-.reset {
-  display: flex;
-  justify-content: center;
-  padding: 40px;
-}
-
-.rules {
-  height: 70px;
-  width: 70px;
-  border-radius: 35px;
-  position: fixed;
-  bottom: 5vh;
-  right: 5vh;
-  border: 3px solid rgb(189, 166, 37);
-  background-color: rgb(189, 125, 30);
-  font-size: 2rem;
-  color: whitesmoke;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.rules:hover {
-  background-color: rgb(156, 103, 24);
-  transition: 0.3s;
-}
-
-.rules-popup {
-  position: absolute;
-  top: calc((100vh - var(--popup-height)) / 2);
-  left: calc((100vw - var(--popup-width)) / 2);
-  height: var(--popup-height);
-  width: var(--popup-width);
-  background-color: rgb(255, 250, 243);
-  border-radius: 20px;
-  border: 6px solid bisque;
-  opacity: 0.9;
-  padding: 1rem;
-  font-size: 2rem;
-  color: black;
-  line-height: 3rem;
-}
-
-.close-btn {
-  position: absolute;
-  left: calc(var(--popup-width) - 50px);
-  top: 8px;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 1rem;
-  background-color: var(--reset-btn-clr);
-  border: 2px solid rgb(146, 0, 0);
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.close-btn:hover {
-  color: white;
-  transition: 0.2s;
+.battlefield {
+  flex: 4;
 }
