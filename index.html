@@ -15,42 +15,34 @@
   </head>
   <body>
     <div class="header">
-      <a href="https://github.com/nocoineratall/rock-paper-scissors">GitHub</a>
+      <h1 class="game-name">
+        ROCK - PAPER - SCISSORS
+        <p class="github-link">
+          <a
+            href="https://github.com/nocoineratall/rock-paper-scissors"
+            target="_blank"
+            >by NoCoinerAtAll</a
+          >
+        </p>
+      </h1>
     </div>
-    <div class="main-game-area">
-      <div class="game-field">
-        <div class="score-board">
-          <div class="player-area">
-            <p class="player-name"></p>
-            <div class="player-score"></div>
-            <p class="player-choice"></p>
-          </div>
-          <div class="computer-area">
-            <p class="computer-name">Computer</p>
-            <div class="computer-score"></div>
-            <p class="computer-choice"></p>
-          </div>
-        </div>
-        <div class="round-message"></div>
-        <div class="buttons-container">
-          <button id="rock" class="button">Rock</button>
-          <button id="paper" class="button">Paper</button>
-          <button id="scissors" class="button">Scissors</button>
-        </div>
-        <div class="reset"></div>
-      </div>
-      <div class="game-history">
-        <div class="round-history">
-          <div class="round-counter"></div>
-          <div class="player-move history"></div>
-          <div class="computer-move history"></div>
-        </div>
-        <div class="game-score">
-          <p class="player-game-score"></p>
-          <p class="computer-game-score"></p>
-        </div>
-      </div>
+    <div class="player-info">
+      <h2 class="player-name players border-right"></h2>
+      <h2 class="computer-name players border-left"></h2>
+      <p class="player-score scores border-right">0</p>
+      <p class="computer-score scores border-left">0</p>
     </div>
-    <button class="rules">?</button>
+    <div class="game-field">
+      <div class="player-moves-list sides">
+        <button class="move" value="0">Rock</button>
+        <button class="move" value="1">Paper</button>
+        <button class="move" value="2">Scissors</button>
+      </div>
+      <div class="battlefield">
+        <div class="player-move"></div>
+        <div class="computer-move"></div>
+      </div>
+      <div class="round-history sides"></div>
+    </div>
   </body>
 </html>
