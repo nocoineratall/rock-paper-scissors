@@ -2,6 +2,7 @@ const players = (function () {
   const player = {
     id: 0,
     name: "Player",
+    lastMove: "",
     roundScore: 0,
     gameScore: 0,
   };
@@ -9,6 +10,7 @@ const players = (function () {
   const computer = {
     id: 1,
     name: "Computer",
+    lastMove: "",
     roundScore: 0,
     gameScore: 0,
   };
@@ -26,11 +28,16 @@ const players = (function () {
 })();
 
 const DOM = (function () {
+  let historyIndex = 0;
+
   const DOMelements = {
     body: document.querySelector("body"),
     playersName: document.querySelectorAll(".players"),
     scores: document.querySelectorAll(".scores"),
     moveBtns: document.querySelectorAll(".move"),
+    playerMove: document.querySelector(".player-move"),
+    computerMove: document.querySelector(".computer-move"),
+    historyTable: document.querySelector(".history-table"),
   };
 
   const printScore = function (player) {
@@ -42,12 +49,35 @@ const DOM = (function () {
     DOMelements.playersName[1].textContent = players.computer.name;
   };
 
+  const printMoves = function () {
+    DOMelements.playerMove.textContent = players.player.lastMove;
+    DOMelements.computerMove.textContent = players.computer.lastMove;
+
+    let wrapper = document.createElement("div");
+    let roundCounterP = document.createElement("p");
+    let playerHistoryP = document.createElement("p");
+    let computerHistoryP = document.createElement("p");
+
+    roundCounterP.textContent = ++historyIndex;
+    playerHistoryP.textContent = players.player.lastMove;
+    computerHistoryP.textContent = players.computer.lastMove;
+
+    // DOMelements.historyTable.appendChild(roundCounterP);
+    // DOMelements.historyTable.appendChild(playerHistoryP);
+    // DOMelements.historyTable.appendChild(computerHistoryP);
+
+    wrapper.appendChild(roundCounterP);
+    wrapper.appendChild(playerHistoryP);
+    wrapper.appendChild(computerHistoryP);
+
+    DOMelements.historyTable.appendChild(wrapper);
+  };
+
   // locating this function here prevents DOMelements to be exposed out
   // of the module
   function eventBinder() {
     DOMelements.moveBtns.forEach((btn) => {
       btn.addEventListener("click", () => {
-        console.log(btn.value);
         gameLogic.playRound(btn.value);
       });
     });
@@ -61,7 +91,7 @@ const DOM = (function () {
   eventBinder();
   printPlayerNames();
 
-  return { printScore, printPlayerNames };
+  return { printScore, printPlayerNames, printMoves };
 })();
 
 const gameLogic = (function () {
@@ -77,8 +107,11 @@ const gameLogic = (function () {
   };
 
   const returnRoundWinner = function (moveIndex) {
-    const playerM = playerMove(moveIndex);
-    const computerM = computerMove();
+    players.player.lastMove = playerMove(moveIndex);
+    players.computer.lastMove = computerMove();
+
+    const playerM = players.player.lastMove;
+    const computerM = players.computer.lastMove;
 
     switch (playerM) {
       case "rock":
@@ -115,14 +148,15 @@ const gameLogic = (function () {
 
   const playRound = function (moveIndex) {
     let winner = returnRoundWinner(moveIndex);
-    console.log("The winner is: " + winner.name);
 
     if (winner == false) {
       console.log("its a tie");
+      DOM.printMoves();
       //prints tie message
     } else {
       players.setRoundScore(winner);
       DOM.printScore(winner);
+      DOM.printMoves();
       return winner.score;
     }
   };
@@ -134,74 +168,3 @@ const gameLogic = (function () {
 
   return { playRound, returnRoundWinner };
 })();
-
-// DOM elements initialization
-// roundMessage.textContent = welcomeMessage;
-// playerNameP.textContent = playerName;
-// playerScoreDiv.textContent = playerScore;
-// computerScoreDiv.textContent = computerScore;
-// playerGameScoreP.textContent = `${playerName}: ${playerGameScore}`;
-// computerGameScoreP.textContent = `Computer: ${computerGameScore}`;
-
-// It binds event to all play buttons
-for (let i = 0; i < playButtons.length; i++) {
-  let playerChoiceLower = setLowerCase(playButtons[i].textContent);
-
-  playButtons[i].addEventListener("click", () => {
-    // callback function:
-    // prints player choice on history panel
-    // play a round, check for victory and prints winner name
-    if (playerScore < 5 && computerScore < 5) {
-      playerChoiceP.textContent = playerChoiceLower;
-      playRound(playerChoiceLower, getComputerChoice());
-      printHistory(playerChoiceLower, "player");
-      if (playerScore == 5) {
-        roundMessage.textContent = `Game Over - ${playerName} Wins`;
-        playerGameScoreP.textContent = `${playerName}: ${++playerGameScore}`;
-        resetButton();
-      } else if (computerScore == 5) {
-        roundMessage.textContent = "Game Over - Computer Wins";
-        computerGameScoreP.textContent = `Computer: ${++computerGameScore}`;
-        resetButton();
-      }
-    }
-  });
-}
-
-// resets game variables to default value/state
-// function resetVars() {
-//   const resetDiv = document.querySelector(".reset");
-//   const resetBtn = document.createElement("button");
-//   resetBtn.textContent = "Play Again";
-//   resetBtn.classList = "reset-btn";
-//   resetBtn.addEventListener("click", () => {
-//     computerScore = 0;
-//     playerScore = 0;
-//     computerScoreDiv.textContent = computerScore;
-//     playerScoreDiv.textContent = playerScore;
-//     playerChoiceP.textContent = "";
-//     computerChoiceP.textContent = "";
-//     roundMessage.textContent = welcomeMessage;
-//     playerMoveHistory.textContent = "";
-//     computerMoveHistory.textContent = "";
-//     roundCounterDiv.textContent = "";
-//     roundCounter = 0;
-//     resetBtn.remove();
-//   });
-//   resetDiv.appendChild(resetBtn);
-// }
-
-// prints round on history panel
-function printHistory(move, selector) {
-  const moveP = document.createElement("p");
-  const counterP = document.createElement("p");
-  moveP.textContent = move;
-  counterP.textContent = roundCounter;
-
-  if (selector == "player") {
-    playerMoveHistory.appendChild(moveP);
-    roundCounterDiv.appendChild(counterP);
-  } else {
-    computerMoveHistory.appendChild(moveP);
-  }
-}
