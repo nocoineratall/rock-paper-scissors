@@ -24,7 +24,12 @@ const players = (function () {
     return ++winner.roundScore;
   };
 
-  return { setPlayerName, setRoundScore, player, computer };
+  const setLastMove = function (moveIndex) {
+    player.lastMove = gameLogic.playerMove(moveIndex);
+    computer.lastMove = gameLogic.computerMove();
+  };
+
+  return { setPlayerName, setRoundScore, setLastMove, player, computer };
 })();
 
 const DOM = (function () {
@@ -38,6 +43,7 @@ const DOM = (function () {
     playerMove: document.querySelector(".player-move"),
     computerMove: document.querySelector(".computer-move"),
     historyTable: document.querySelector(".history-table"),
+    roundMessage: document.querySelector(".round-message"),
   };
 
   const printScore = function (player) {
@@ -53,7 +59,7 @@ const DOM = (function () {
     DOMelements.playerMove.textContent = players.player.lastMove;
     DOMelements.computerMove.textContent = players.computer.lastMove;
 
-    let wrapper = document.createElement("div");
+    let historyWrapper = document.createElement("div");
     let roundCounterP = document.createElement("p");
     let playerHistoryP = document.createElement("p");
     let computerHistoryP = document.createElement("p");
@@ -62,15 +68,15 @@ const DOM = (function () {
     playerHistoryP.textContent = players.player.lastMove;
     computerHistoryP.textContent = players.computer.lastMove;
 
-    // DOMelements.historyTable.appendChild(roundCounterP);
-    // DOMelements.historyTable.appendChild(playerHistoryP);
-    // DOMelements.historyTable.appendChild(computerHistoryP);
+    historyWrapper.appendChild(roundCounterP);
+    historyWrapper.appendChild(playerHistoryP);
+    historyWrapper.appendChild(computerHistoryP);
 
-    wrapper.appendChild(roundCounterP);
-    wrapper.appendChild(playerHistoryP);
-    wrapper.appendChild(computerHistoryP);
+    DOMelements.historyTable.appendChild(historyWrapper);
+  };
 
-    DOMelements.historyTable.appendChild(wrapper);
+  const printMessage = function (message) {
+    DOMelements.roundMessage.textContent = message;
   };
 
   // locating this function here prevents DOMelements to be exposed out
@@ -91,7 +97,7 @@ const DOM = (function () {
   eventBinder();
   printPlayerNames();
 
-  return { printScore, printPlayerNames, printMoves };
+  return { printScore, printPlayerNames, printMoves, printMessage };
 })();
 
 const gameLogic = (function () {
@@ -106,40 +112,53 @@ const gameLogic = (function () {
     return moves[index];
   };
 
-  const returnRoundWinner = function (moveIndex) {
-    players.player.lastMove = playerMove(moveIndex);
-    players.computer.lastMove = computerMove();
-
-    const playerM = players.player.lastMove;
-    const computerM = players.computer.lastMove;
-
+  const pickWinner = function (playerM, computerM) {
+    let message = "";
     switch (playerM) {
       case "rock":
         if (computerM == "rock") {
+          message = "It's a tie - try again";
+          DOM.printMessage(message);
           return false;
         } else if (computerM == "paper") {
+          message = "Paper beats Rock";
+          DOM.printMessage(message);
           return players.computer;
         } else if (computerM == "scissors") {
+          message = "Rock beats Scissors";
+          DOM.printMessage(message);
           return players.player;
         }
         break;
 
       case "paper":
         if (computerM == "rock") {
+          message = "Paper beats Rock";
+          DOM.printMessage(message);
           return players.player;
         } else if (computerM == "paper") {
+          message = "It's a tie - try again";
+          DOM.printMessage(message);
           return false;
         } else if (computerM == "scissors") {
+          message = "Scissors beats Paper";
+          DOM.printMessage(message);
           return players.computer;
         }
         break;
 
       case "scissors":
         if (computerM == "rock") {
+          message = "Rock beats Scissors";
+          DOM.printMessage(message);
           return players.computer;
         } else if (computerM == "paper") {
+          message = "Scissors beats Paper";
+          DOM.printMessage(message);
           return players.player;
         } else if (computerM == "scissors") {
+          message = "It's a tie - try again";
+          DOM.printMessage(message);
           return false;
         }
         break;
@@ -147,16 +166,18 @@ const gameLogic = (function () {
   };
 
   const playRound = function (moveIndex) {
-    let winner = returnRoundWinner(moveIndex);
+    players.setLastMove(moveIndex);
+    let playerMove = players.player.lastMove;
+    let computerMove = players.computer.lastMove;
+    let winner = pickWinner(playerMove, computerMove);
+
+    DOM.printMoves();
 
     if (winner == false) {
-      console.log("its a tie");
-      DOM.printMoves();
       //prints tie message
     } else {
       players.setRoundScore(winner);
       DOM.printScore(winner);
-      DOM.printMoves();
       return winner.score;
     }
   };
@@ -166,5 +187,5 @@ const gameLogic = (function () {
     players.player.roundScore = 0;
   };
 
-  return { playRound, returnRoundWinner };
+  return { playRound, playerMove, computerMove };
 })();
