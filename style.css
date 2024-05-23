@@ -15,7 +15,7 @@
   --history-panel-border-color: #a8a29e; /* 400 */
   --history-panel-bg-color: #fafaf9; /* 50 */
   --font-color-white: white;
-  --players-padding: 10px;
+  --players-padding: 30px;
 }
 
 body {
@@ -49,9 +49,13 @@ body {
 }
 
 .player-info > * {
-  font-size: 3rem;
+  font-size: 4rem;
   text-align: center;
   padding: var(--players-padding);
+}
+
+.player-info > .player-name:hover {
+  cursor: pointer;
 }
 
 .players {
@@ -71,26 +75,59 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .player-moves-list > button {
-  width: 8rem;
-  padding: 10px;
+  font-size: 3rem;
+  width: 220px;
+  padding: 20px;
+  border-radius: 30px;
 }
 
 .battlefield {
   flex: 4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5rem;
 
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  font-size: 5rem;
+}
+
+.battlefield > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.battlefield > .round-message {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  text-align: center;
+  font-size: 3rem;
+  padding: 20px;
+}
+
+.battlefield > .reset-btn-wrapper {
+  grid-column-start: 1;
+  grid-column-end: 3;
+
+  display: flex;
+  justify-content: center;
+}
+
+.battlefield button {
   font-size: 2rem;
+  padding: 20px 60px;
+  border-radius: 10px;
 }
 
 .round-history {
   padding: 30px;
+}
+
+.round-history .history-title {
+  text-align: center;
 }
 
 .history-table {
